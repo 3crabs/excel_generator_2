@@ -7,11 +7,22 @@ from tkinter import messagebox
 from src.consts import path_template_file, path_out_dir
 from src.logic import read_file, make_invoice_file
 
+
+def start():
+    global file_path
+    global message
+
+    start_button["state"] = DISABLED
+    message.set('Обрабротка начата')
+    thread = Thread(target=work)
+    thread.start()
+
+
 window = Tk()
 file_path = StringVar()
-start_button = None
+start_button = Button(window, text="Начать", width=12, command=start)
 message = StringVar()
-message_label = None
+message_label = Label(textvariable=message)
 
 
 def check_button_state():
@@ -48,16 +59,6 @@ def work():
             window.quit()
 
 
-def start():
-    global file_path
-    global message
-
-    start_button["state"] = DISABLED
-    message.set('Обрабротка начата')
-    thread = Thread(target=work)
-    thread.start()
-
-
 def main():
     global window
     global file_path
@@ -66,21 +67,24 @@ def main():
     global message_label
 
     window.title("Создание накладных")
-    window.geometry('332x111')
+    window.geometry('500x140')
 
-    file_label = Label(text="Путь к файлу:")
-    file_label.grid(row=0, column=0, padx=5, pady=5, sticky="w")
-    file_input = Entry(textvariable=file_path)
-    file_input.grid(row=0, column=1, padx=5, pady=5)
-    file_button = Button(window, text="Выбрать файл", command=select_file)
-    file_button.grid(column=2, row=0, padx=5, pady=5, sticky="e")
+    col1x = 20
+    col2x = 360
+    row1y = 20
+    row2y = 50
+    row3y = 90
+    file_label = Label(text="Путь к файлу со списком данных:")
+    file_label.place(x=col1x, y=row1y)
+    file_input = Entry(textvariable=file_path, width=40)
+    file_input.place(x=col1x, y=row2y+4)
+    file_button = Button(window, text="Выбрать файл", width=12, command=select_file)
+    file_button.place(x=col2x, y=row2y)
 
-    message_label = Label(textvariable=message)
-    message_label.grid(row=2, column=0, columnspan=2, padx=5, pady=5, sticky="w")
+    message_label.place(x=col1x, y=row3y+4)
     message.set("Заполните поля, нажмите кнопку."[0:35])
 
-    start_button = Button(window, text="Начать", command=start)
-    start_button.grid(column=2, row=2, padx=5, pady=5, sticky="e")
+    start_button.place(x=col2x, y=row3y)
     start_button["state"] = DISABLED
 
     window.mainloop()
