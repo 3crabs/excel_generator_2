@@ -28,7 +28,7 @@ message_label = Label(textvariable=message)
 def check_button_state():
     global start_button
     start_button["state"] = NORMAL
-    if file_path.get() is '':
+    if file_path.get() == '':
         start_button["state"] = DISABLED
 
 
@@ -41,6 +41,7 @@ def select_file():
 
 def work():
     global message
+    global file_path
 
     start_time = time()
 
@@ -67,22 +68,22 @@ def main():
     global message_label
 
     window.title("Создание накладных")
-    window.geometry('500x140')
+    window.geometry('580x140')
 
     col1x = 20
-    col2x = 360
+    col2x = 440
     row1y = 20
     row2y = 50
     row3y = 90
     file_label = Label(text="Путь к файлу со списком данных:")
     file_label.place(x=col1x, y=row1y)
-    file_input = Entry(textvariable=file_path, width=40)
+    file_input = Entry(textvariable=file_path, width=50)
     file_input.place(x=col1x, y=row2y+4)
     file_button = Button(window, text="Выбрать файл", width=12, command=select_file)
     file_button.place(x=col2x, y=row2y)
 
     message_label.place(x=col1x, y=row3y+4)
-    message.set("Заполните поля, нажмите кнопку."[0:35])
+    message.set('Заполните поле и нажмите "Начать"'[:35])
 
     start_button.place(x=col2x, y=row3y)
     start_button["state"] = DISABLED
